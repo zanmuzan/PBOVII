@@ -33,7 +33,6 @@ class Majalah(PerpusItem):
         self.issue = issue
     
     def info(self):
-        super().info()
         print("Volume: ", self.volume)
         print("Issue: ", self.issue)
         
@@ -43,11 +42,22 @@ class DVD(PerpusItem):
         self.genre = genre
     
     def info(self):
-        return super().info()
+        print("Aktor: ", self.aktor)
+        print("Genre: ", self.genre)
 
 class pengarang():
         def __init__(self, nama):
             self.nama = nama
         
-        def info(self):
-            print("Nama: ", self.nama)
+            
+perpus_item = PerpusItem("Pemrograman Python", "Python")
+# perpus_item.info()
+
+buku = Buku("Pemrograman Python", "Python", "Joe", "ABC")
+# buku.info()
+
+majalah = Majalah("Vol 1", "Issue 1")
+# majalah.info()
+
+dvd = DVD("Aktor 1", "Komedi")
+dvd.info()
