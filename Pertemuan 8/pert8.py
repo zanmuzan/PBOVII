@@ -48,6 +48,9 @@ class DVD(PerpusItem):
 class pengarang():
         def __init__(self, nama):
             self.nama = nama
+            
+        # cari buku berdasarkan nama pengarang
+        
         
             
 perpus_item = PerpusItem("Pemrograman Python", "Python")
@@ -60,4 +63,11 @@ majalah = Majalah("Vol 1", "Issue 1")
 # majalah.info()
 
 dvd = DVD("Aktor 1", "Komedi")
-dvd.info()
+# dvd.info()
+
+# cari pengarang dari buku Pemrograman Python
+pengarang = pengarang("Pemrograman Python")
+pengarang.info()
+
+
+# buat program dengan class perpusitem berisi judul, subjek dengan method lokasi penyimpanan dan info. class katalog dengan method cari. class anak dari perpusitem yaitu buku, majalah, dvd. buku berisi pengarang dan penerbit, majalah berisi volume dan issue, dvd berisi aktor dan genre. dan class pengarang dengan atribut nama, dan method cari buku berdasarkan nama pengarang beserta info buku tersebut.
