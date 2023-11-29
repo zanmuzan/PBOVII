@@ -1,73 +1,110 @@
 class PerpusItem:
-    def __init__(self,judul, subjek ):
+    def __init__(self, judul, subjek):
         self.judul = judul
         self.subjek = subjek
 
-    def lokasiPenyimpanan(self):
-        return "Rak Buku"
-    
-    def info(self):
-        print("Judul: ", self.judul)
-        print("Subjek: ", self.subjek)
-        print("Lokasi Penyimpanan: ", self.lokasiPenyimpanan())
+    def lokasi_penyimpanan(self):
+        if self.subjek == "Fiksi":
+            return "Rak Fiksi"
+        elif self.subjek == "Non-Fiksi":
+            return "Rak Non-Fiksi"
+        else:
+            return "Lokasi tidak diketahui"
 
-class katalog:
-    def cari(self):
-        print("Caricari")
-    
+    def info(self):
+        return f"Judul: {self.judul}, Subjek: {self.subjek}"
+
+class Katalog:
+    def __init__(self):
+        self.items = []
         
+    def info(self):
+        for item in self.items:
+            print(item.info())
+            print(item.lokasi_penyimpanan())
+            print()
+
+    def tambah_item(self, item):
+        self.items.append(item)
+
+    def cari(self, judul):
+        for item in self.items:
+            if item.judul == judul:
+                print("Item ada dalam katalog")
+                return item
+        print("Judul tidak ditemukan.")
+
 class Buku(PerpusItem):
-    def __init__(self, judul, subjek, pengarang, penerbit):
+    def __init__(self, judul, subjek, isbn, pengarang, jml_halaman, ukuran):
         super().__init__(judul, subjek)
+        self.isbn = isbn
         self.pengarang = pengarang
-        self.penerbit = penerbit
+        self.jml_halaman = jml_halaman
+        self.ukuran = ukuran
 
     def info(self):
-        super().info()
-        print("Pengarang: ", self.pengarang)
-        print("Penerbit: ", self.penerbit)
-        
+        return f"Judul: {self.judul}, Subjek: {self.subjek}, ISBN: {self.isbn}, " \
+               f"Pengarang: {self.pengarang}, Jumlah Halaman: {self.jml_halaman}, Ukuran: {self.ukuran}"
+
 class Majalah(PerpusItem):
-    def __init__(self, volume, issue):
+    def __init__(self, judul, subjek, volume, issue):
+        super().__init__(judul, subjek)
         self.volume = volume
         self.issue = issue
-    
+
     def info(self):
-        print("Volume: ", self.volume)
-        print("Issue: ", self.issue)
-        
+        return f"Judul: {self.judul}, Subjek: {self.subjek}, Volume: {self.volume}, Issue: {self.issue}"
+
 class DVD(PerpusItem):
-    def __init__(self, aktor, genre):
+    def __init__(self, judul, subjek, aktor, genre):
+        super().__init__(judul, subjek)
         self.aktor = aktor
         self.genre = genre
-    
+
     def info(self):
-        print("Aktor: ", self.aktor)
-        print("Genre: ", self.genre)
+        return f"Judul: {self.judul}, Subjek: {self.subjek}, Aktor: {self.aktor}, Genre: {self.genre}"
 
-class pengarang():
-        def __init__(self, nama):
-            self.nama = nama
-            
-        # cari buku berdasarkan nama pengarang
-        
-        
-            
-perpus_item = PerpusItem("Pemrograman Python", "Python")
-# perpus_item.info()
+class Pengarang:
+    def __init__(self, nama):
+        self.nama = nama
 
-buku = Buku("Pemrograman Python", "Python", "Joe", "ABC")
-# buku.info()
+    def cari_buku(self, katalog):
+        hasil_pencarian = []
+        for item in katalog.items:
+            if isinstance(item, Buku) and item.pengarang == self.nama:
+                hasil_pencarian.append(item)
+        return hasil_pencarian
+    
+buku1 = Buku("Harry Potter", "Fiksi", "1234567890", "J.K. Rowling", 300, "A5")
+buku2 = Buku("Pemrograman Python", "Non-Fiksi", "0987654321", "Joe Marini", 400, "A4")
+majalah1 = Majalah("National Geographic", "Non-Fiksi", "2020", "Januari")
+dvd1 = DVD("Avengers", "Fiksi", "Robert Downey Jr.", "Action")
 
-majalah = Majalah("Vol 1", "Issue 1")
-# majalah.info()
+katalog = Katalog()
+katalog.tambah_item(buku1)
+katalog.tambah_item(buku2)
+katalog.tambah_item(majalah1)
+katalog.tambah_item(dvd1)
 
-dvd = DVD("Aktor 1", "Komedi")
-# dvd.info()
+katalog.info()
+print("=="*60)
 
-# cari pengarang dari buku Pemrograman Python
-pengarang = pengarang("Pemrograman Python")
-pengarang.info()
+katalog.cari("Harry Potter")
+katalog.cari("Pemrograman Berorientasi Objek")
+print("=="*60)
+pengarang1 = Pengarang("J.K. Rowling")
+hasil_pencarian1 = pengarang1.cari_buku(katalog)
 
+pengarang2 = Pengarang("Joe Marini")
+hasil_pencarian2 = pengarang2.cari_buku(katalog)
 
-# buat program dengan class perpusitem berisi judul, subjek dengan method lokasi penyimpanan dan info. class katalog dengan method cari. class anak dari perpusitem yaitu buku, majalah, dvd. buku berisi pengarang dan penerbit, majalah berisi volume dan issue, dvd berisi aktor dan genre. dan class pengarang dengan atribut nama, dan method cari buku berdasarkan nama pengarang beserta info buku tersebut.
+pengarang3 = Pengarang("Joe")
+hasil_pencarian3 = pengarang3.cari_buku(katalog)
+
+print("Hasil pencarian buku dengan pengarang J.K. Rowling:")
+for buku in hasil_pencarian1:
+    print(buku.info())
+
+print("\nHasil pencarian buku dengan pengarang Joe Marini:")
+for buku in hasil_pencarian2:
+    print(buku.info())
